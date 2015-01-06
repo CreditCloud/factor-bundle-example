@@ -22,11 +22,11 @@ var cacheify = function (b, opts) {
 
     return b;
 }
-cacheify.args = {
+var args = {
     basedir: __dirname, cache: {}, packageCache: {}, fullPaths: true
 };
 
-var b = cacheify(browserify(cacheify.args));
+var b = cacheify(browserify(args));
 var gpaths = glob.sync('node_modules/assets/js/main/**/*.js', {
     cwd: __dirname
 })
@@ -52,7 +52,7 @@ function isAbsolutePath(file) {
         /^\//;
     return regexp.test(file);
 }
-var relativePath = unary(path.relative.bind(path, path.join(cacheify.args.basedir, 'node_modules')));
+var relativePath = unary(path.relative.bind(path, path.join(args.basedir, 'node_modules')));
 function replacePipeline(pipeline) {
     pipeline.get('pack')
         .splice(0, 1, through.obj(function (row, enc, next) {
@@ -65,7 +65,7 @@ function replacePipeline(pipeline) {
             }, {});
             this.push(row);
             next();
-        }), bpack(_.assign({}, cacheify.args, {
+        }), bpack(_.assign({}, args, {
             raw: true,
             hasExports: true,
             //hasExports: false,
@@ -74,7 +74,7 @@ function replacePipeline(pipeline) {
 }
 
 function factorBundle(opts) {
-    var b = browserify(rpaths, _.assign({}, cacheify.args, { debug: true }));
+    var b = browserify(rpaths, _.assign({}, args, { debug: true }));
     replacePipeline(b.pipeline);
     b.on('factor.pipeline', function (file, pipeline) {
         replacePipeline(pipeline);
@@ -89,7 +89,7 @@ function toDevNull() {
 
 b.bundle(function () {
     console.log(arguments);
-    //console.log(cacheify.args.cache);
+    //console.log(args.cache);
     factorBundle({
         outputs: dpaths.map(toDevNull),
         threshold: function(row, groups) {
