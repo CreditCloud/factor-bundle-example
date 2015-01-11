@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var isArray = require('lodash-node/compat/objects/isArray');
 var assign = require('lodash-node/compat/objects/assign');
 var keys = require('lodash-node/compat/objects/keys');

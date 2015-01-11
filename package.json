@@ -6,6 +6,7 @@
     "factor-bundle": "^2.3.3",
     "fn-unary": "^1.0.0",
     "glob": "^4.3.2",
+    "jquery": "^1.11.2",
     "lodash-node": "^2.4.1",
     "ractive": "^0.6.1",
     "through2": "^0.6.3"
